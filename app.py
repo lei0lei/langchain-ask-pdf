@@ -7,7 +7,7 @@ from langchain.vectorstores import FAISS
 from langchain.chains.question_answering import load_qa_chain
 from langchain.llms import OpenAI
 from langchain.callbacks import get_openai_callback
-
+from st_on_hover_tabs import on_hover_tabs
 
 def main():
     load_dotenv()
@@ -38,7 +38,7 @@ def main():
       knowledge_base = FAISS.from_texts(chunks, embeddings)
       
       # show user input
-      user_question = st.text_input("Ask a question about your PDF:")
+      user_question = st.text_input("请询问:")
       if user_question:
         docs = knowledge_base.similarity_search(user_question)
         
@@ -51,5 +51,26 @@ def main():
         st.write(response)
     
 
+def _main():
+  st.header("Helper for your pdf paper")
+  st.markdown('<style>' + open('./frontend/style.css').read() + '</style>', unsafe_allow_html=True)
+
+
+  with st.sidebar:
+      tabs = on_hover_tabs(tabName=['Settings'], 
+                          iconName=['settings'], default_choice=0)
+
+    # st.write(f'select model')
+    # st.write(f'set model params')
+    # st.write(f'shown windows')
+  
+  if tabs =='Settings':
+      st.title("Navigation Bar")
+      st.write('Name of option is {}'.format(tabs))
+      add_selectbox = st.sidebar.selectbox(
+          'select model',
+          ('chatgpt3.5', 'chatgpt4')
+      )
+      
 if __name__ == '__main__':
     main()
