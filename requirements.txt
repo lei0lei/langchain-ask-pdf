@@ -12,3 +12,4 @@ streamlit-chat
 duckduckgo-search
 docarray
 pypdf
+sentence-transformers
