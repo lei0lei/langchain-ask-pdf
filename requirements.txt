@@ -8,3 +8,7 @@ openai==0.28
 tiktoken
 streamlit-on-Hover-tabs
 streamlit-extras
+streamlit-chat 
+duckduckgo-search
+docarray
+pypdf
