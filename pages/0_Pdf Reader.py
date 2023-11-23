@@ -96,7 +96,7 @@ class PdfReaderBot:
 
     def __init__(self):
         utils.configure_openai_api_key()
-        self.openai_model = "gpt-4"
+        self.openai_model = "gpt-3.5-turbo"
 
     def save_file(self, file):
         folder = 'tmp'
