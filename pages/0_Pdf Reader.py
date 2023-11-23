@@ -17,8 +17,6 @@ class PdfReaderBot:
         utils.configure_openai_api_key()
         self.openai_model = "gpt-4"
 
-    def setup_qa_chain(aa):
-        pass
     def save_file(self, file):
         folder = 'tmp'
         if not os.path.exists(folder):
@@ -28,6 +26,7 @@ class PdfReaderBot:
         with open(file_path, 'wb') as f:
             f.write(file.getvalue())
         return file_path
+    
     @st.spinner('Analyzing documents..')
     def setup_qa_chain(self, uploaded_files):
         # Load documents
