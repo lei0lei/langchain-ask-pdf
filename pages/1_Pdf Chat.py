@@ -1,73 +1,3 @@
-from dotenv import load_dotenv
-import streamlit as st
-import os
-from streamlit_extras.row import row 
-
-def gen_chatgpt_response():
-   pass
-
-def clear_chat_history():
-  st.session_state.messages = [{"role": "assistant", "content": "How may I assist you today?"}]
-  
-def generate_chatgpt_response():
-   pass
-
-# 设置栏
-# with st.sidebar:
-#     add_title = st.write(
-#         "Settings",
-#     )
-#     if 'OPENAI_API_KEY' in st.secrets:
-#         st.success('API key already provided!', icon='✅')
-#         openai_api_key = st.secrets['OPENAI_API_KEY']
-#     else:
-#         openai_api_key = st.text_input('Enter openai API token:', type='password')
-#         if not len(openai_api_key)==40:
-#             st.warning('Please enter your credentials!', icon='⚠️')
-#         else:
-#             st.success('Proceed to entering your prompt message!', icon='👉')
-#             os.environ['OPENAI_API_KEY'] = openai_api_key
-#     with st.container():
-#         row_settings_model = row(1, vertical_align="top")
-#         row_settings_model.selectbox("Select model", ["gpt3.5", "gpt4"])
-#         row_settings_t = row(1, vertical_align="top")
-#         temperature = row_settings_t.slider('temperature', min_value=0.01, max_value=5.0, value=0.1, step=0.01)
-#         row_settings_save = row(1, vertical_align="top")
-#         row_settings_save.button("Save", use_container_width=True)
-#         st.sidebar.button('Clear Chat History', on_click=clear_chat_history)
-
-# # Store LLM generated responses
-# if "messages" not in st.session_state.keys():
-#     st.session_state.messages = [{"role": "assistant", "content": "How may I assist you today?"}]
-
-# # Display or clear chat messages
-# for message in st.session_state.messages:
-#     with st.chat_message(message["role"]):
-#         st.write(message["content"])
-
-
-# # User-provided prompt
-# if prompt := st.chat_input(disabled=not openai_api_key):
-#     st.session_state.messages.append({"role": "user", "content": prompt})
-#     with st.chat_message("user"):
-#         st.write(prompt)
-
-# # Generate a new response if last message is not from assistant
-# if st.session_state.messages[-1]["role"] != "assistant":
-#     with st.chat_message("assistant"):
-#         with st.spinner("Thinking..."):
-#             response = generate_chatgpt_response(prompt)
-#             placeholder = st.empty()
-#             full_response = ''
-#             for item in response:
-#                 full_response += item
-#                 placeholder.markdown(full_response)
-#             placeholder.markdown(full_response)
-#     message = {"role": "assistant", "content": full_response}
-#     st.session_state.messages.append(message)
-
-#
-
 
 import os
 import utils
@@ -82,12 +12,12 @@ from langchain.chains import ConversationalRetrievalChain
 from langchain.vectorstores import DocArrayInMemorySearch
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
-st.set_page_config(page_title="Chat with PDF", page_icon="📄")
-st.header('Chat with your pdf documents')
-st.divider()
+st.set_page_config(page_title="ChatPDF", page_icon="📄")
+
+from langchain.embeddings import HuggingFaceEmbeddings
 
 
-class CustomDataChatbot:
+class PdfChatBot:
 
     def __init__(self):
         utils.configure_openai_api_key()
@@ -120,7 +50,7 @@ class CustomDataChatbot:
         splits = text_splitter.split_documents(docs)
 
         # Create embeddings and store in vectordb
-        embeddings = OpenAIEmbeddings()
+        embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
         vectordb = DocArrayInMemorySearch.from_documents(splits, embeddings)
 
         # Define retriever
@@ -161,6 +91,9 @@ class CustomDataChatbot:
                 response = qa_chain.run(user_query, callbacks=[st_cb])
                 st.session_state.messages.append({"role": "assistant", "content": response})
 
-if __name__ == "__main__":
-    obj = CustomDataChatbot()
-    obj.main()
+
+
+
+if __name__ == '__main__':
+    bot = PdfChatBot()
+    bot.main()
