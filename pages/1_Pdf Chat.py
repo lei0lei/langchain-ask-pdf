@@ -46,7 +46,7 @@ class PdfChatbot:
         with open(file_path, 'wb') as f:
             f.write(file.getvalue())
         return file_path
-    retriever.get_relevant_documents(query)
+    # retriever.get_relevant_documents(query)
     @st.spinner('Analyzing documents..')
     def setup_qa_chain(self, uploaded_files):
         # Load documents
@@ -85,6 +85,10 @@ class PdfChatbot:
         qa_chain = ConversationalRetrievalChain.from_llm(llm, retriever=retriever, memory=memory, verbose=True)
         
         return qa_chain
+
+    def setup_find_answer_relevanted_retriever(self):
+        pass
+
 
     @utils.enable_chat_history
     def main(self):
