@@ -81,7 +81,7 @@ class PdfChatbot:
 
         # Setup LLM and QA chain
         llm = ChatOpenAI(model_name=self.openai_model, temperature=0, streaming=True)
-        qa_chain = ConversationalRetrievalChain.from_llm(llm, retriever=retriever, memory=memory, verbose=True，return_source_documents=True)
+        qa_chain = ConversationalRetrievalChain.from_llm(llm, retriever=retriever, memory=memory, verbose=True, return_source_documents=True)
         return qa_chain
 
     @utils.enable_chat_history
