@@ -70,7 +70,7 @@ class PdfChatbot:
         # Define retriever
         retriever = vectordb.as_retriever(
             search_type='mmr',
-            search_kwargs={'k':2, 'fetch_k':4}
+            search_kwargs={'k':2, 'fetch_k':4},verbose=True
         )
 
         # Setup memory for contextual conversation        
